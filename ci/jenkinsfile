@@ -30,9 +30,7 @@ pipeline {
             steps {
                 container('helm') {
                     script {
-                        sh '''
-                            renderHelm()
-                        '''
+                        renderHelm()
                     }
                 }
             }
