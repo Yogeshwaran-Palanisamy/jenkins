@@ -1,16 +1,15 @@
-@Library('jenkins-library') _
 pipeline {
     agent {
         label 'helm3'
     }
     options {
-        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '3')
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '5')
     }
     stages {
         stage('Checkout Code') {
             steps {
                 checkout scmGit(
-                    branches: [[name: '*/users/yogesh/self-hosted-runner']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Yogeshwaran-Palanisamy/gha-runners/']]
+                    branches: [[name: '*']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Yogeshwaran-Palanisamy/jenkins/']]
                     )
             }
         }
