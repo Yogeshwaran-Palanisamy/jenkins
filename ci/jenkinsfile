@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 checkout scmGit(
-                    branches: [[name: '*/users/yogesh/self-hosted-runner']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Yogeshwaran-Palanisamy/gha-runners/']]
+                    userRemoteConfigs: [[url: 'https://github.com/Yogeshwaran-Palanisamy/jenkins/']]
                     )
             }
         }
