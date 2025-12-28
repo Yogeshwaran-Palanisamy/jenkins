@@ -2,6 +2,7 @@ metadata:
   chart: oci://ghcr.io/jenkinsci/helm-charts/jenkins
   namespace: ci
   name: "jenkins"
+  chartVersion: "5.8.114"
 
 # Default values for jenkins.
 # This is a YAML-formatted file.

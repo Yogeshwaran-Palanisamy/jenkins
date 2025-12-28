@@ -2,6 +2,7 @@ metadata:
   chart: oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set
   namespace: gha-runner
   name: "jenkins-action-runner"
+  chartVersion: "0.13.0"
 
 ## githubConfigUrl is the GitHub url for where you want to configure runners
 ## ex: https://github.com/myorg/myrepo or https://github.com/myorg or https://github.com/enterprises/myenterprise
