@@ -420,6 +420,11 @@ controller:
     - configuration-as-code:2006.v001a_2ca_6b_574
     - theme-manager:327.v780d7096ec29
     - kubernetes-credentials-provider:1.299.v610fa_e76761a_
+    - pipeline-stage-view:2.38
+    - pipeline-groovy-lib:787.ve2fef0efdca_6
+    - job-dsl:1.93
+    - cloudbees-folder:6.1073.va_7888eb_dd514
+    - blueocean:1.27.25
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
@@ -531,11 +536,15 @@ controller:
         jenkins:
           systemMessage: Welcome to Yogeshwaran's CI\CD server.
 
+      bootstrap-jenkins-jobs: |
+        jobs:
+        - url: "https://raw.githubusercontent.com/Yogeshwaran-Palanisamy/jenkins-dsl-seed/master/folder.yaml"
       global-pipeline-libraries: |
         unclassified:
           globalLibraries:
             libraries:
             - name: "jenkins-library"
+              defaultVersion: "master"
               retriever:
                 modernSCM:
                   scm:
@@ -1210,25 +1219,13 @@ agent:
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   # -- Configures extra pod templates for the default kubernetes cloud
   podTemplates: 
-    python: |
-      - name: python
-        label: jenkins-python
-        serviceAccount: jenkins
-        containers:
-          - name: python
-            image: python:3
-            command: "/bin/sh -c"
-            args: "cat"
-            ttyEnabled: true
-            privileged: true
-            resourceRequestCpu: "400m"
-            resourceRequestMemory: "512Mi"
-            resourceLimitCpu: "1"
-            resourceLimitMemory: "1024Mi"
     helm-agent: |
       - name: helm3
         label: helm3
         serviceAccount: jenkins
+        idleMinutes: 5
+        idleMinutesStr: "5"
+        namespace: ci
         imagePullSecrets:
           - name: jenkins-docker
         containers:
