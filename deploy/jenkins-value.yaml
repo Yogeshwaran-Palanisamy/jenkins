@@ -878,7 +878,7 @@ controller:
     scrapeEndpoint: /prometheus
 
   # -- Can be used to disable rendering controller test resources when using helm template
-  testEnabled: true
+  testEnabled: false
 
   httpsKeyStore:
     # -- Enables HTTPS keystore on jenkins controller
@@ -1406,16 +1406,3 @@ awsSecurityGroupPolicies:
     - name: ""
       securityGroupIds: []
       podSelector: {}
-
-# Here you can configure unit tests values when executing the helm unittest in the CONTRIBUTING.md
-helmtest:
-  # A testing framework for bash
-  bats:
-    # Bash Automated Testing System (BATS)
-    image:
-      # -- Registry of the image used to test the framework
-      registry: "docker.io"
-      # -- Repository of the image used to test the framework
-      repository: "bats/bats"
-      # -- Tag of the image to test the framework
-      tag: "1.13.0"

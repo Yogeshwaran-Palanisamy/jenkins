@@ -29,7 +29,7 @@ pipeline {
             steps {
                 container('helm') {
                     script {
-                        renderHelm()
+                        deployHelm()
                     }
                 }
             }
@@ -41,9 +41,7 @@ pipeline {
             steps {
                 container('helm') {
                     script {
-                        sh '''
-                            kubectl apply -f out/
-                        '''
+                            deployHelm(true)
                     }
                 }
             }
