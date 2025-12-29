@@ -424,6 +424,7 @@ controller:
     - job-dsl:1.93
     - cloudbees-folder:6.1073.va_7888eb_dd514
     - blueocean:1.27.25
+    - github-checks:634.v371dc6d978a_3
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
