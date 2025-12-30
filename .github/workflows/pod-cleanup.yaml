@@ -2,11 +2,11 @@ name: Remove Pods in ci namespace
 
 on:
   workflow_dispatch:
-inputs:
-  namespace:
-    description: 'Kubernetes namespace to clean up pods from'
-    required: true
-    default: 'ci'
+    inputs:
+      namespace:
+        description: 'Kubernetes namespace to clean up pods from'
+        required: true
+        default: 'ci'
 jobs:
   list-pod:
     runs-on: jenkins-action-runner
@@ -23,7 +23,6 @@ jobs:
     runs-on: jenkins-action-runner
     environment:
       name: ci
-
     steps:
     - name: Install specific version of kubectl
       uses: azure/setup-kubectl@v3
