@@ -1,0 +1,16 @@
+name: Remove Pods in ci namespace
+
+on:
+  workflow_dispatch:
+jobs:
+  cleanup:
+    runs-on: jenkins-action-runner
+    environment:
+      name: ci
+    steps:
+    - name: Get pods
+      run: |
+        kubectl get po -n ci --no-headers | awk '{print $1}' 
+    - name: Delete pods
+      run: |
+        kubectl delete po --all -n ci 
