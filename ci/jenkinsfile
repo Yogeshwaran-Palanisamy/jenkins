@@ -13,18 +13,6 @@ pipeline {
                     )
             }
         }
-        stage('Install cert manager') {
-            steps {
-                container('helm') {
-                    script {
-                        sh '''
-                            curl -LO https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
-                            helm upgrade --install cert-manager oci://quay.io/jetstack/charts/cert-manager --version v1.19.2 --namespace cert-manager --create-namespace --verify --keyring ./cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg --set crds.enabled=true
-                        '''
-                    }
-                }
-            }
-        }
         stage('Render Helm Charts') {
             steps {
                 container('helm') {
@@ -40,8 +28,13 @@ pipeline {
             }
             steps {
                 container('helm') {
+                    deployHelm(true)
                     script {
-                            deployHelm(true)
+                        sh '''
+                            echo "Deploying cert-manager to Kubernetes cluster"
+                            curl -LO https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
+                            helm upgrade --install cert-manager oci://quay.io/jetstack/charts/cert-manager --version v1.19.2 --namespace cert-manager --create-namespace --verify --keyring ./cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg --set crds.enabled=true
+                        '''
                     }
                 }
             }
