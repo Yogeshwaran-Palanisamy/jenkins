@@ -8,6 +8,9 @@ jobs:
     environment:
       name: ci
     steps:
+    - name: Install specific version of kubectl
+      uses: azure/setup-kubectl@v3
+      
     - name: Get pods
       run: |
         kubectl get po -n ci --no-headers | awk '{print $1}' 
