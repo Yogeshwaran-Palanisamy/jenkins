@@ -1,5 +1,6 @@
 metadata:
   chart: ngrok/ngrok-operator
+  repoUrl: https://charts.ngrok.com
   namespace: ngrok
   name: "ngrok"
   chartVersion: "0.22.0-rc.1"
