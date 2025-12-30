@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins-ing
+  namespace: ci
+spec:
+  ingressClassName: ngrok
+  rules:
+    - host: "subinvolute-dannette-unreceptively.ngrok-free.dev"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: jenkins
+                port:
+                  number: 8080
