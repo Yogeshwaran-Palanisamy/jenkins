@@ -427,6 +427,10 @@ controller:
     - blueocean:1.27.25
     - github-checks:634.v371dc6d978a_3
     - ws-cleanup:0.49
+    - github-branch-source:1925.v62fb_7ffb_08ce
+    - github-pullrequest:0.7.3
+    - github-oauth:651.v135e939e8b_60
+
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
