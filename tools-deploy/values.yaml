@@ -1,0 +1,12 @@
+secrets:
+  github-oauth:
+    namespace:
+    clientId:
+    clientSecret:
+  ngrok-secret:
+    namespace:
+    API_KEY:
+    AUTHTOKEN:
+  controller-manager:
+    namespace:
+    github_token:
