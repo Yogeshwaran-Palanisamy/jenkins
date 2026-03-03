@@ -490,13 +490,13 @@ controller:
   existingSecret:
 
   # -- List of additional existing secrets to mount
-  additionalExistingSecrets: []
+  additionalExistingSecrets: 
   # ref: https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
   # additionalExistingSecrets:
-  #  - name: secret-name-1
-  #    keyName: username
-  #  - name: secret-name-1
-  #    keyName: password
+   - name: github-oauth
+     keyName: clientId
+   - name: github-oauth
+     keyName: clientSecret
 
   # -- List of additional secrets to create and mount
   additionalSecrets: []
@@ -568,19 +568,27 @@ controller:
     # Ignored if securityRealm is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Security Realm-section
     securityRealm: |-
-      local:
-        allowsSignup: false
-        enableCaptcha: false
-        users:
-        - id: "${chart-admin-username}"
-          name: "Jenkins Admin"
-          password: "${chart-admin-password}"
+      github:
+        githubWebUri: "https://github.com"
+        githubApiUri: "https://api.github.com"
+        clientID: ${github-oauth-clientId}
+        clientSecret: ${github-oauth-clientSecret}
+        oauthScopes: "read:org,user:email"
 
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section
     authorizationStrategy: |-
-      loggedInUsersCanDoAnything:
-        allowAnonymousRead: false
+      github:
+        adminUserNames: "Yogeshwaran-Palanisamy"
+        agentUserName: "Yogeshwaran-Palanisamy"
+        allowAnonymousJobStatusPermission: false
+        allowAnonymousReadPermission: false
+        allowCcTrayPermission: false
+        allowGithubWebHookPermission: false
+        authenticatedUserCreateJobPermission: false
+        authenticatedUserReadPermission: false
+        useRepositoryPermissions: true
+        organizationNames: ""
 
     # -- Annotations for the JCasC ConfigMap
     configMapAnnotations: {}
