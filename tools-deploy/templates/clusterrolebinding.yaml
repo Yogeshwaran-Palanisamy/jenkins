@@ -1,6 +1,6 @@
+{{- range $val := .Values.rbac }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
-{{- range $val := .Values.rbac }}
 metadata:
   name: {{$val.name}}
 roleRef:
