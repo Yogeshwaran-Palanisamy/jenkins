@@ -10,3 +10,10 @@ secrets:
   controller-manager:
     namespace:
     github_token:
+rbac:
+- name: 
+  apiGroups:
+  resources: 
+  verbs:
+  serviceAccountName:
+  namespace:

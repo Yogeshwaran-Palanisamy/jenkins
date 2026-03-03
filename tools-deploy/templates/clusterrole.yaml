@@ -1,0 +1,14 @@
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+{{- range $val := .Values.rbac }}
+    name: {{$val.name}}
+rules:
+- apiGroups:
+{{- toYaml $val.apiGroups | nindent 2 }}
+  resources:
+{{- toYaml $val.resources | nindent 2 }}
+  verbs:
+{{- toYaml $val.verbs | nindent 2 }}
+{{- end}}
