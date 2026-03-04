@@ -1,0 +1,8 @@
+metadata:
+  directInstallation: true
+  chart: oci://quay.io/jetstack/charts/cert-manager
+  namespace: cert-manager
+  name: cert-manager
+  chartVersion: "1.19.2"
+  otherOptions: "--keyring cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg --set crds.enabled=true"
+  preInstallation: "cd ../deploy && curl -LO https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg"
