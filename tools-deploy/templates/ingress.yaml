@@ -1,4 +1,5 @@
 {{- $ing := .Values.ingress -}}
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -17,3 +18,4 @@ spec:
                 name: {{$ing.service}}
                 port:
                   number: {{$ing.port}}
+{{- end -}}
