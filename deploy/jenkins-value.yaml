@@ -48,7 +48,7 @@ controller:
     repository: "jenkins/jenkins"
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk21"
-    tag:
+    tag: "2.541.2"
 
     # -- Controller image tag label
     tagLabel: jdk21
@@ -237,7 +237,7 @@ controller:
   # -- k8s target port
   targetPort: 8080
   # -- k8s node port. Only used if serviceType is NodePort
-  nodePort:
+  nodePort: 
 
   # Use Local to preserve the client source IP and avoids a second hop for LoadBalancer and NodePort type services,
   # but risks potentially imbalanced traffic spreading.
@@ -414,22 +414,22 @@ controller:
   # Plugins will be installed during Jenkins controller start
   # -- List of Jenkins plugins to install. If you don't want to install plugins, set it to `false`
   installPlugins:
-    - kubernetes:4398.vb_b_33d9e7fe23
-    - workflow-aggregator:608.v67378e9d3db_1
-    - git:5.8.1
-    - configuration-as-code:2006.v001a_2ca_6b_574
-    - theme-manager:327.v780d7096ec29
-    - kubernetes-credentials-provider:1.299.v610fa_e76761a_
-    - pipeline-stage-view:2.38
-    - pipeline-groovy-lib:787.ve2fef0efdca_6
-    - job-dsl:1.93
-    - cloudbees-folder:6.1073.va_7888eb_dd514
-    - blueocean:1.27.25
-    - github-checks:634.v371dc6d978a_3
-    - ws-cleanup:0.49
-    - github-branch-source:1871.v50ffb_786515e
-    - github-pullrequest:0.7.3
-    - github-oauth:651.v135e939e8b_60
+  - kubernetes:4423.vb_59f230b_ce53
+  - workflow-aggregator:608.v67378e9d3db_1
+  - git:5.10.0
+  - configuration-as-code:2037.v8e5349845172
+  - theme-manager:341.v0fd4f8539b_f0
+  - kubernetes-credentials-provider:1.303.vdfcf47fb_b_fef
+  - pipeline-stage-view:2.39
+  - pipeline-groovy-lib:787.ve2fef0efdca_6
+  - job-dsl:3654.vdf58f53e2d15
+  - cloudbees-folder:6.1079.vc0975c2de294
+  - blueocean:1.27.25
+  - github-checks:676.v48c732b_52951
+  - ws-cleanup:0.49
+  - github-branch-source:1967.vdea_d580c1a_b_a_
+  - github-pullrequest:0.7.3
+  - github-oauth:685.v53b_070455063
 
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
@@ -490,13 +490,13 @@ controller:
   existingSecret:
 
   # -- List of additional existing secrets to mount
-  additionalExistingSecrets: []
+  additionalExistingSecrets: 
   # ref: https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
   # additionalExistingSecrets:
-  #  - name: secret-name-1
-  #    keyName: username
-  #  - name: secret-name-1
-  #    keyName: password
+   - name: github-oauth
+     keyName: clientId
+   - name: github-oauth
+     keyName: clientSecret
 
   # -- List of additional secrets to create and mount
   additionalSecrets: []
@@ -568,19 +568,27 @@ controller:
     # Ignored if securityRealm is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Security Realm-section
     securityRealm: |-
-      local:
-        allowsSignup: false
-        enableCaptcha: false
-        users:
-        - id: "${chart-admin-username}"
-          name: "Jenkins Admin"
-          password: "${chart-admin-password}"
+      github:
+        githubWebUri: "https://github.com"
+        githubApiUri: "https://api.github.com"
+        clientID: ${github-oauth-clientId}
+        clientSecret: ${github-oauth-clientSecret}
+        oauthScopes: "read:org,user:email"
 
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section
     authorizationStrategy: |-
-      loggedInUsersCanDoAnything:
-        allowAnonymousRead: false
+      github:
+        adminUserNames: "Yogeshwaran-Palanisamy"
+        agentUserName: "Yogeshwaran-Palanisamy"
+        allowAnonymousJobStatusPermission: false
+        allowAnonymousReadPermission: false
+        allowCcTrayPermission: false
+        allowGithubWebHookPermission: false
+        authenticatedUserCreateJobPermission: false
+        authenticatedUserReadPermission: false
+        useRepositoryPermissions: true
+        organizationNames: ""
 
     # -- Annotations for the JCasC ConfigMap
     configMapAnnotations: {}
@@ -839,50 +847,6 @@ controller:
   # - ip: 10.0.50.50
   #   hostnames:
   #     - other.local
-
-  # Expose Prometheus metrics
-  prometheus:
-    # If enabled, add the prometheus plugin to the list of plugins to install
-    # https://plugins.jenkins.io/prometheus
-
-    # -- Enables prometheus service monitor
-    enabled: false
-    # -- Additional labels to add to the service monitor object
-    serviceMonitorAdditionalLabels: {}
-    # -- Set a custom namespace where to deploy ServiceMonitor resource
-    serviceMonitorNamespace:
-    # -- How often prometheus should scrape metrics
-    scrapeInterval: 60s
-
-    # Defaults to the default endpoint used by the prometheus plugin
-    # -- The endpoint prometheus should get metrics from
-    scrapeEndpoint: /prometheus
-
-    # See here: https://prometheus.io/docs/prometheus/latest/configuration/alerting_rules/
-    # The `groups` root object is added by default, add the rule entries
-    # -- Array of prometheus alerting rules
-    alertingrules: []
-    # -- Additional labels to add to the PrometheusRule object
-    alertingRulesAdditionalLabels: {}
-    # -- Set a custom namespace where to deploy PrometheusRule resource
-    prometheusRuleNamespace: ""
-
-    # RelabelConfigs to apply to samples before scraping. Prometheus Operator automatically adds
-    # relabelings for a few standard Kubernetes fields. The original scrape job’s name
-    # is available via the __tmp_prometheus_job_name label.
-    # More info: https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
-    relabelings: []
-    # MetricRelabelConfigs to apply to samples before ingestion.
-    metricRelabelings: []
-
-  googlePodMonitor:
-    # If enabled, It creates Google Managed Prometheus scraping config
-    enabled: false
-    # Set a custom namespace where to deploy PodMonitoring resource
-    # serviceMonitorNamespace: ""
-    scrapeInterval: 60s
-    # This is the default endpoint used by the prometheus plugin
-    scrapeEndpoint: /prometheus
 
   # -- Can be used to disable rendering controller test resources when using helm template
   testEnabled: false
@@ -1378,7 +1342,7 @@ serviceAccount:
 
   # The name of the ServiceAccount is autogenerated by default
   #  -- The name of the ServiceAccount to be used by access-controlled resources
-  name:
+  name: jenkins
   # -- Configures annotations for the ServiceAccount
   annotations: {}
   # -- Configures extra labels for the ServiceAccount
@@ -1406,10 +1370,3 @@ serviceAccountAgent:
 
 # -- Checks if any deprecated values are used
 checkDeprecation: true
-
-awsSecurityGroupPolicies:
-  enabled: false
-  policies:
-    - name: ""
-      securityGroupIds: []
-      podSelector: {}

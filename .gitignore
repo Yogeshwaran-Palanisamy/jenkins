@@ -1,1 +1,2 @@
-get-value.py
+.env
+secrets/
