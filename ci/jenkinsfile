@@ -25,6 +25,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             when {
                 branch 'main'
+                branch 'features/yogesh/jenkins'
             }
             steps {
                 container('helm') {
