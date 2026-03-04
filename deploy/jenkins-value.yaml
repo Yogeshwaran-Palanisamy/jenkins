@@ -169,7 +169,7 @@ controller:
   # -- Append to `JAVA_OPTS` env var
   javaOpts:
   # -- Append to `JENKINS_OPTS` env var
-  jenkinsOpts:
+  jenkinsOpts: "--prefix=/jenkins"
 
   # If you are using the ingress definitions provided by this chart via the `controller.ingress` block,
   # the configured hostname will be the ingress hostname starting with `https://`
