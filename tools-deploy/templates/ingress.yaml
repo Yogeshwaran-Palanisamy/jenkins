@@ -1,18 +1,19 @@
+{{- $ing := .Values.ingress -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jenkins-ing
-  namespace: ci
+  name: {{ $ing.name}}
+  namespace: {{$ing.namespace}}
 spec:
   ingressClassName: ngrok
   rules:
     - host: "subinvolute-dannette-unreceptively.ngrok-free.dev"
       http:
         paths:
-          - path: /
+          - path: {{$ing.path}}
             pathType: Prefix
             backend:
               service:
-                name: jenkins
+                name: {{$ing.service}}
                 port:
-                  number: 8080
+                  number: {{$ing.port}}
