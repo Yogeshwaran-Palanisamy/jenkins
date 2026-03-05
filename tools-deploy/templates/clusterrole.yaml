@@ -1,5 +1,6 @@
 
-{{- range $val := .Values.rbac }}
+{{- if .Values.rbac.enabled | default false -}}
+{{- range $val := .Values.rbac.roles }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -12,3 +13,4 @@ rules:
   verbs:
 {{- toYaml $val.verbs | nindent 2 }}
 {{- end}}
+{{- end -}}
