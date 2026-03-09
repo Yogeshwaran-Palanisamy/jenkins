@@ -1,4 +1,5 @@
-{{- range $val := .Values.rbac }}
+{{- if .Values.rbac.enabled | default false -}}
+{{- range $val := .Values.rbac.roles }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -12,3 +13,4 @@ subjects:
   name: {{$val.serviceAccountName}}
   namespace: {{$val.namespace}}
 {{ end -}}
+{{- end -}}

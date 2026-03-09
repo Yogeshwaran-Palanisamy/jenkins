@@ -1,19 +1,26 @@
-{{- $ing := .Values.ingress -}}
+{{- $ing := .Values.ingress | default false -}}
+{{- if .Values.ingress.enabled -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $ing.name}}
   namespace: {{$ing.namespace}}
+  annotations:
+    k8s.ngrok.com/traffic-policy: nginx-policy
+
 spec:
   ingressClassName: ngrok
   rules:
     - host: "subinvolute-dannette-unreceptively.ngrok-free.dev"
       http:
         paths:
-          - path: {{$ing.path}}
+        {{- range $val := $ing.paths }}
+          - path: {{$val.path}}
             pathType: Prefix
             backend:
               service:
-                name: {{$ing.service}}
+                name: {{$val.service}}
                 port:
-                  number: {{$ing.port}}
+                  number: {{$val.port}}
+          {{- end -}}
+{{- end -}}
